@@ -1,6 +1,5 @@
 const express = require("express");
 const Container = require("./Container");
-
 const router = express.Router();
 const container = new Container();
 
@@ -29,7 +28,7 @@ router.put("/:id", (req, res) => {
 });
 
 router.delete("/:id", (req, res) => {
-    // TODO
+    router.delete("/:id", productClass.deleteById);
     res.send("DELETE ID");
 });
 

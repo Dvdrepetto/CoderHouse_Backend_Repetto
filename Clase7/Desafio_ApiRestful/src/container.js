@@ -1,6 +1,6 @@
-
-
-const ERROR = { error: "producto no encontrado" };
+const ERROR = {
+  error: "producto no encontrado",
+};
 
 class Container {
   constructor() {
@@ -24,7 +24,10 @@ class Container {
     const arrayOfIds = this.products.map((product) => product.id);
     const maxId = arrayOfIds.length === 0 ? 0 : Math.max(...arrayOfIds);
     const id = maxId + 1;
-    const newObj = { id, ...obj };
+    const newObj = {
+      id,
+      ...obj,
+    };
     this.products.push(newObj);
     return newObj;
   }
@@ -35,7 +38,10 @@ class Container {
       const filteredProducts = this.products.filter(
         (product) => product.id !== id
       );
-      const newObj = { id, ...obj };
+      const newObj = {
+        id,
+        ...obj,
+      };
       this.products = [...filteredProducts, newObj];
       return newObj;
     } else {
@@ -43,9 +49,29 @@ class Container {
     }
   }
 
-  deleteById(id) {
-    // TODO
-    return true;
+  deleteById(req, res) {
+    try {
+      const { id } = req.params;
+      if (isNaN(id)) {
+        res.status(400).json({
+          Error: "El parametro ingresado no es un numero",
+        });
+      }
+      const product = products.filter(
+        (filterProduct) => filterProduct.id === Number(id)
+      );
+      if (!product) {
+        res.status(404).json({
+          Error: "El producto no existe",
+        });
+      }
+      products = products.filter(
+        (filterProduct) => filterProduct.id !== Number(id)
+      );
+      res.status(200).json(`Producto con id : ${id} eliminado exitosamente`);
+    } catch (error) {
+      console.log("Error en deleteById", error);
+    }
   }
 }
 
